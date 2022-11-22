@@ -11,6 +11,11 @@
     ];
 
   # Bootloader.
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_5_15;
+  boot.extraModulePackages = [
+    config.boot.kernelPackages.zfs
+  ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
@@ -90,14 +95,15 @@
   };
 
   fonts.fonts = with pkgs; [
+    atkinson-hyperlegible
+    dina-font
+    fira-code
+    fira-code-symbols
+    liberation_ttf
+    mplus-outline-fonts.githubRelease
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
     proggyfonts
   ];
 
@@ -107,12 +113,22 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    #cudaPackages.cudnn
+    #cudaPackages.nccl
+    #cudaPackages.nvidia_fs
     amass
+    aria
+    atkinson-hyperlegible
+    bat
     bind
+    bingrep
     binutils
     brotli
+    calibre
     cayley
     clang
+    clang-tools
+    cmake
     deno
     dfc
     doas
@@ -122,23 +138,40 @@
     ffmpeg
     file
     fish
+    font-manager
     fortune
+    freetype
+    gambit
     gcc
+    gdb
     gerbil
     git
+    glib
+    gnufdisk
+    gnumake
     google-chrome
+    htop
     hyperfine
-    kitty
     jq
     jujutsu
+    kitty
+    kmon
+    linux-manual
+    linuxHeaders
+    linuxKernel.packages.linux_5_15.zfs
     litecli
+    lld
+    lldb
+    llvm
     lua
     luajit
-    llvm
+    masscan
     mcfly
     mlocate
+    mpv
     musl
     mycli
+    nasm
     neovim
     nerdfonts
     nodePackages.pnpm
@@ -149,14 +182,34 @@
     perl
     pgcli
     pkg-config
+    ponysay
+    pv
+    python310
+    python310Packages.pip
     rofi
     rofi-pass
     rustup
     sccache
+    vivaldi
+    vivaldi-ffmpeg-codecs
+    vivaldi-widevine
+    vmtouch
+    vscode-with-extensions
+    unzip
+    wabt
+    wasm-pack
+    wasm-pack
+    wasmer
+    wasmtime
+    watchexec
     wget
     wireshark
+    xclip
+    yasm
     zdns
+    zip
     zmap
+    zoxide
     zpaq
   ];
 
@@ -179,10 +232,10 @@
     enableOnBoot = true;
   };
   services.bind = {
-    enable = true;
+    enable = false;
     listenOn = [ "any" ];
     listenOnIpv6 = [ "any" ];
-    #forwarders = [ "8.8.8.8" ];
+    forwarders = [ "8.8.8.8" ];
   };
   security.doas.enable = true;
 
