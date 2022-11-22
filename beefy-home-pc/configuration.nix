@@ -119,6 +119,7 @@
     amass
     aria
     atkinson-hyperlegible
+    pavucontrol
     bat
     bind
     bingrep
